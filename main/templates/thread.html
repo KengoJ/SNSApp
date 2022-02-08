@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>{{thread.threadname}}</h1>
+<br>
+<p>投稿一覧</p>
+<table class="table">
+<thead class="thead">
+    <tr>
+        <th>名前</th>
+        <th>投稿内容</th>
+        <th>日付</th>
+    </tr>
+</thead>
+<tbody>
+    {% for i in articles %}
+        <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.article }}</td> 
+            <th scope="row">{{ i.date.replace(microsecond = 0) }}</th>
+        </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+
+<br>
+
+<p>ユーザー名：{{ current_user.username }}</p>
+
+<form action="/add" method="post">
+    
+    {% with messages = get_flashed_messages() %}
+    <ul class=flashes></ul>    
+        {% if messages %}
+            {% for message in messages %}
+                <li>{{ messages }}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    {% endwith %}
+    
+    <input type="hidden" name="thread" value="{{ thread }}">
+    <label for="article">投稿内容</label>
+    <textarea name="article" rows="5" cols="80"></textarea>    
+    <p></p>
+    <input type="hidden" name="name" value="{{ current_user.username }}">
+    <input type="hidden" name="send_user_id" value="{{ current_user.id }}">
+    <button class="btn btn-primary" type="submit">送信</button>
+</form>
+<br>
+
+<form action="/" method="get">
+    <button class="btn btn-primary" type="submit">戻る</button>
+</form>
+{% endblock %}

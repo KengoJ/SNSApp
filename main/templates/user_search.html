@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% from "macros.html" import validate_picture %}
+
+
+{% block content %}
+<h1>ユーザー検索</h1>
+
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+
+<form action="/user_search" method="post">
+    <input type="text" name="username">
+    <input class="btn btn-primary"type="submit" value="検索">
+</form>
+
+
+{% if users %}
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ユーザー名</th>
+            <th scope="col">ユーザー画像</th>
+            <th scope="col">友達申請</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{user.username}}</td>
+                <td>
+                    {{validate_picture(user)}}
+                </td>
+                <td>
+                    {% if user.id == current_user.id%}
+
+                    {% elif (user.state_from_currentuser == 2) and (user.state_from_opponentuser == 2) %}
+
+                    {% elif user.state_from_currentuser == 1 %}
+                    <form method="POST" action="{{url_for('follow_lift')}}">
+                        <input type="hidden" name="opponent_id" value="{{user.id}}">
+                        <input type="hidden" name="state" value="{{user.id}}">
+                        <input class="btn btn-secondary"type="submit" value="フォロー解除">
+                    {% elif user.state_from_opponentuser == 1 %}
+                    <form method="POST" action="{{url_for('follow')}}">
+                        <input type="hidden" name="to_user_id" value="{{user.id}}">
+                        <input class="btn btn-primary"type="submit" value="フォロー">
+                    {% else %}
+                    <form method="POST" action="{{url_for('follow')}}">
+                        <input type="hidden" name="to_user_id" value="{{user.id}}">
+                        <input class="btn btn-primary"type="submit" value="フォロー">
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

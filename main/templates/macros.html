@@ -1,0 +1,9 @@
+{% macro validate_picture(user) %}
+
+{% if user.picture_path %}
+    <img src="{{url_for('static', filename = user.picture_path)}}" style="width: 100px;">
+{% else %}
+    <img src="{{url_for('static', filename ='imgs/no_img.png')}}" style="width: 100px;height: 100px;" >
+{% endif %}
+
+{% endmacro %}

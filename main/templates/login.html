@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>ログイン画面</h1>
+<form action="/login" method='POST'>
+    {% with messages = get_flashed_messages() %}
+    <ul class=flashes></ul>    
+        {% if messages %}
+            {% for message in messages %}
+                <li>{{ messages }}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    {% endwith %}
+    </div>
+    <label for="">ユーザーID</label>
+    <input type="text" name="login_user_id">
+    <label for="">パスワード</label>
+    <input type="password" name="password">
+    <input class="btn btn-primary"type="submit" value="ログイン">
+</form>
+<a href="/signup" role="button">新規登録</a>
+<a href="/forgot_password" role="button">パスワードを忘れた場合</a>
+{% endblock %}

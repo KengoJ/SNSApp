@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+{% from "macros.html" import validate_picture %}
+
+{% for message in get_flashed_messages() %}
+<p>※{{message}}</p>
+{% endfor %}
+<h1>フォロー一覧</h1>
+{% if follow_users %}
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ユーザー名</th>
+            <th scope="col">ユーザー画像</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        {% for follow_user in follow_users %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{follow_user.username}}</td>
+                        <td>
+                            {{validate_picture(follow_user)}}
+                        </td>
+                        <td>
+                            <form method="POST" action="{{url_for('follow_lift')}}">
+                                <input type="hidden" name="opponent_id" value="{{follow_user.id}}">
+                                <input class="btn btn-secondary"type="submit" value="フォロー解除">
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{{url_for('chat',friend_id=follow_user.id)}}" class="btn btn-primary" role="button">メッセージを送る</a>
+                        </td>
+                    </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+<h2>フォロワー一覧</h2>
+{% if follower_users %}
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ユーザー名</th>
+            <th scope="col">ユーザー画像</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        {% for follower_user in follower_users %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{follower_user.username}}</td>
+                        <td>
+                            {{validate_picture(follower_user)}}
+                        </td>
+                        <td>
+                            <form method="POST" action="{{url_for('follow')}}">
+                                <input type="hidden" name="to_user_id" value="{{follower_user.id}}">
+                                <input class="btn btn-primary"type="submit" value="フォローする">
+                            </form>
+                        </td>
+                        <td>
+                         
+                        </td>
+                    </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

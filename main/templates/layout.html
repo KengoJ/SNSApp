@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8">
+        
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{page_title}}</title>
+</head>
+<nav>
+        <ul class="nav nav-tabs">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">メニュー</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% if current_user.is_authenticated %}
+                
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('top')}}">ホーム</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('bbs')}}">BBS</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('setting')}}">マイページ</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('user_search')}}">ユーザー検索</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('follow_management')}}">フォロー管理</a></li>
+                        
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('logout')}}">ログアウト</a></li>
+                        {% else %}
+                        
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('login')}}">ログイン</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="{{url_for('signup')}}">登録</a></li>
+                        
+                        {% endif %}
+            </ul>
+</nav>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% block content %}{% endblock %}     
+</body>
+
+        
+
+
+</html>
