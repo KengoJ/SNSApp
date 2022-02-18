@@ -1,23 +1,40 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1>ログイン画面</h1>
+<body  class="text-center" ></body>
+
 <form action="/login" method='POST'>
+  <img class="mb-4" src="{{url_for('static', filename ='imgs/sign_in/sign_in_page.png')}}" alt="" width="72" height="72">
+  <h2 class="h3 mb-3 font-weight-normal">ログイン</h2>
     {% with messages = get_flashed_messages() %}
-    <ul class=flashes></ul>    
-        {% if messages %}
-            {% for message in messages %}
-                <li>{{ messages }}</li>
-            {% endfor %}
-        {% endif %}
-    </ul>
+    {% if messages %}
+    {{ messages[0] }}
+    {% endif %}
     {% endwith %}
+    <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <label for="ユーザーID" >ユーザーID</label>
+                    <input type="text" name="login_user_id" class="form-control" placeholder="example1234" required autofocus>
+                </div>
+            </div>  
+            <div class="row justify-content-center">  
+                <div class="col-md-6"> 
+                        <label for="inputPassword" class="sr-only">パスワード</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>   
+            </div>   
+            <div class="checkbox mb-3">
+                <label>
+                <input type="checkbox"> ログイン状態を保存する
+                </label>
+            </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
     </div>
-    <label for="">ユーザーID</label>
-    <input type="text" name="login_user_id">
-    <label for="">パスワード</label>
-    <input type="password" name="password">
-    <input class="btn btn-primary"type="submit" value="ログイン">
 </form>
-<a href="/signup" role="button">新規登録</a>
-<a href="/forgot_password" role="button">パスワードを忘れた場合</a>
+<br>
+<p><a href="/signup" role="button">新規登録</a></p>
+<p><a href="/forgot_password" role="button">パスワードを忘れた場合</a></p>
+
+  
+
 {% endblock %}

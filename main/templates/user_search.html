@@ -3,15 +3,22 @@
 
 
 {% block content %}
-<h1>ユーザー検索</h1>
+<h2>ユーザー検索</h2>
 
 {% for message in get_flashed_messages() %}
 <p>※{{message}}</p>
 {% endfor %}
 
-<form action="/user_search" method="post">
-    <input type="text" name="username">
-    <input class="btn btn-primary"type="submit" value="検索">
+<form action="/user_search" method="post" class="text-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <input type="text" name="username" class="form-control">
+            </div>
+        </div> 
+        <br>
+        <input class="btn btn-primary"type="submit" value="検索">
+    </div>
 </form>
 
 

@@ -1,13 +1,25 @@
 {% extends "layout.html" %}
+{% from "macros.html" import validate_picture %}
 {% block content %}
 {% for message in get_flashed_messages() %}
 <p>※{{message}}</p>
 {% endfor %}
 <form method="post" action="/setting" enctype="multipart/form-data">
-  
-  <input type="text" name="user_name" value="{{current_user.username}}">
-  <input type="text" name="login_user_id" value="{{current_user.login_user_id}}">
-  <input type="file" name="file" >
-  <input class="btn btn-primary"type="submit" value="送信" >
+  <div class="text-center">
+      <label class="form-label">{{ validate_picture(current_user) }}</label>
+      <br>
+      <label class="form-label">ユーザーネーム</label>
+      <input type="text" class="form-control" name="user_name" placeholder="{{current_user.username}}">
+      <label class="form-label">ユーザーID</label> 
+      <input type="text" class="form-control" name="login_user_id" placeholder="{{current_user.login_user_id}}">
+      <label class="form-label">ユーザーアイコン</label> 
+      <input type="file" class="form-control" name="file" >
+      <br>
+      <input class="btn btn-primary"type="submit" value="変更" >
+  </div>
 </form>
+
+
+
+
 {% endblock %}

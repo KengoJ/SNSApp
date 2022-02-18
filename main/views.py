@@ -51,9 +51,7 @@ def bbs():
 def thread():
     #index.htmlからthreadを取得
     thread_get = request.form['thread']
-    if thread_get == "":
-        flash('タイトルを入力してください')
-        return redirect('/index')
+    
     #ThreadDBをすべて読み込み
     threads = Thread.query.all()
     #表示するスレッドのリスト
@@ -61,11 +59,12 @@ def thread():
     #リストにスレッドのタイトルを追加
     for th in threads:
         thread_list.append(th.threadname)
-
+    #すでに作成されているスレッドを開く処理
     if thread_get in thread_list:
         thread = Thread.query.filter_by(threadname=thread_get).first()
         articles = Entry.query.filter_by(thread_id=thread.id).all()
         return render_template('thread.html', articles=articles,thread=thread_get,page_title="スレッド")
+    #新たにスレッドを作成した場合の処理
     else:
         thread_new = Thread(thread_get)
         db.session.add(thread_new)
@@ -103,7 +102,7 @@ def signup():
         if existed_check:
             flash('登録済みのユーザーです')
             return render_template('signup.html')
-        
+        #UserDBへの追加
         user = User(username=username, login_user_id=login_user_id,
                      password=generate_password_hash(password, method='sha256'))
         db.session.add(user)
@@ -119,7 +118,7 @@ def login():
         if request.method == 'POST':
             login_user_id = request.form.get('login_user_id')
             password = request.form.get('password')
-            #Userテーブルからusername
+            #Userを検索しパスワードを照合する
             user = User.query.filter_by(login_user_id=login_user_id).first()
             if user is None:
                 flash('ユーザーが存在しません')

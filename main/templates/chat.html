@@ -2,42 +2,47 @@
 {% from "macros.html" import validate_picture %}
 
 {% block content %}
-
-<h1>{{friend.username}}</h1>
+<div class="container">
+    <div class="row justify-content-center"><h2>{{friend.username}}</h2></div>
+</div><br>
 {% for message in messages %}
 
     {% if message.from_user_id == current_user.id %}
         <!-- 自分側 -->
-        <div class="col-md-6">
-            {{validate_picture(current_user)}}
-            <p>{{current_user.username}}</p>
+        <div class="container">
+            <div class="col-md-6">
+                {{validate_picture(current_user)}}
+                <p>ユーザー：{{current_user.username}}</p>
+            </div>
+            <div class="col-md-4">
+                {{message.message}}
+                <p></p>
+                <p>{{message.create_date.strftime('%H:%M')}}</p>
+            </div>
         </div>
-        <div class="col-md-4">
-            {{message.message}}
-            <p></p>
-            <p>{{message.create_date.strftime('%H:%M')}}</p>
-        </div>
-
           {% else %}
         <!-- 相手側 -->
-        <div class="col-md-2"></div>
-        <div class="col-md-4">
-            {{message.message}}
-            <p></p>
-            <p>{{message.create_date.strftime('%H:%M')}}</p>
-        </div>
-        <div class="col-md-2">
-            {{validate_picture(friend)}}
-            <p>{{friend.username}}</p>
+        <div class="container">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                {{message.message}}
+                <p></p>
+                <p>{{message.create_date.strftime('%H:%M')}}</p>
+            </div>
+            <div class="col-md-2">
+                {{validate_picture(friend)}}
+                <p>ユーザー：{{friend.username}}</p>
+            </div>
         </div>
     {% endif %}
 
 {% endfor %}
- 
-<div class="mb-3">
 <form  method="POST" action="{{url_for('chat',friend_id=friend.id)}}">
+<div class="container">
+<div class="mb-3">
     <textarea class="form-control" name="message" rows="5" cols="80"></textarea>  
     <input class="btn btn-primary"type="submit" value="送信" >
-</form>
 </div>
+</div>
+</form>
 {% endblock %}

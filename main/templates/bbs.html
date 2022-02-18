@@ -1,20 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>サイト名</h1>
+    <h2>BBS</h2>
     <p>ユーザー名：{{ current_user.username }}</p>
-
-    <form action="/thread" method="post">
-        <label for="thread">新しいスレッドを作る</label>
-        <input type="text" name="thread">
-        <button class="btn btn-primary"type="submit">作成する</button>
-    </form>
-
+    <div class="text-center">
+        <form action="/thread" method="post">
+            <label for="thread">新しいスレッドを作る</label>
+            <input type="text" name="thread" required>
+            <button class="btn btn-primary"type="submit">作成する</button>
+        </form>
+    </div>   
     <h2>スレッド一覧</h2>
     {% for thread in threads %}
-        <form action="/thread" method="post">
-            <input type="hidden" name="thread" value="{{thread.threadname}}">
-            <button class="btn btn-primary"type="submit">{{ thread.threadname }}</button>
-        </form>
+    <div class="text-center">
+            <form action="/thread" method="post">
+                <input type="hidden" name="thread" value="{{thread.threadname}}">
+                <button class="btn btn-primary"type="submit">{{ thread.threadname }}</button>
+            </form>
+    </div>
     {% endfor %}
 
     {% endblock %}
